@@ -1,40 +1,32 @@
 package com.mtn.uganda.interview.interview.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService service;
+    @Autowired
+    private UserService userService;
 
-    public UserController(UserService service) {
-        this.service = service;
-    }
-
+    // get all users
     @GetMapping
-    public List<User> getUserList() {
-        return service.getUsers();
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
+    // get one user by id
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
-        return service.getUserById(id);
+        return userService.getUserById(id);
     }
 
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return service.createUser(user);
-    }
-
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return service.updateUser(id, user);
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        return service.deleteUser(id);
+    // load users from the mock data file
+    @GetMapping("/load")
+    public List<User> loadUsers() {
+        return userService.loadUsers();
     }
 }
